@@ -20,17 +20,9 @@ corr <- function(directory, threshold=0) {
         sulfate <- c(sulfate, data[['sulfate']])
         nitrate <- c(nitrate, data[['nitrate']])
     }
-    all <- cbind(sulfate, nitrate)
-    good <- complete.cases(all)
-    rows <- length(all[good]) / 2
-    m <- matrix(all[good], nrow=rows, ncol=2)
-    if (threshold == 0) {
-        result <- cor(m)
-        result
-    }
-    else if ((length(m) / 2) > threshold)
-    {
-        result <- cor(m[1:threshold,])
-        result
-    }
+    ## x result <- cor(sulfate, nitrate, use="complete.obs")
+    ## x(same as above) result <- cor(sulfate, nitrate, use="na.or.complete")
+    ## x (error missing obs) result <- cor(sulfate, nitrate, use="all.obs")
+    ## x same as 1 result <- cor(sulfate, nitrate, use="pairwise.complete.obs")
+    result
 }
