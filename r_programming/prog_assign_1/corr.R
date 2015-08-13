@@ -12,12 +12,25 @@ corr <- function(directory, threshold=0) {
     
     setwd("~/Engineering/coursera/r_programming/prog_assign_1")
     files <- list.files(path=directory, pattern='*.csv')
-    nitrate <- numeric()
     sulfate <- numeric()
+    nitrate <- numeric()
     for (file in files) {
         filename <- sprintf("%s/%s", directory, file)
         data <- read.csv(filename)
         sulfate <- c(sulfate, data[['sulfate']])
         nitrate <- c(nitrate, data[['nitrate']])
+    }
+    all <- cbind(sulfate, nitrate)
+    good <- complete.cases(all)
+    rows <- length(all[good]) / 2
+    m <- matrix(all[good], nrow=rows, ncol=2)
+    if (threshold == 0) {
+        result <- cor(m)
+        result
+    }
+    else if ((length(m) / 2) > threshold)
+    {
+        result <- cor(m[1:threshold,])
+        result
     }
 }
